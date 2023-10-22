@@ -1,4 +1,4 @@
-NAME		=	Converter
+NAME		=	Serializer
 
 CXX			=	c++ -g2
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
@@ -6,7 +6,7 @@ CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 BUILD_DIR	=	bulid
 
-SRC		=	main.cpp Converter.cpp
+SRC		=	main.cpp Serializer.cpp
 OBJ		=	$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	$(NAME)
@@ -26,7 +26,7 @@ clean:
 
 fclean: clean
 	@$(RM) -r $(NAME)
-	@echo "${YELLOW}> Cleaning of the Converter has been done.❌${END}"
+	@echo "${YELLOW}> Cleaning of the Serializer has been done.❌${END}"
 
 re: fclean all
 
