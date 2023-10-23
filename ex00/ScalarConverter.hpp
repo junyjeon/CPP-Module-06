@@ -1,17 +1,18 @@
-#ifndef CONVERTER_HPP
-#define CONVERTER_HPP
+#ifndef SCALARCONVERTER_HPP
+#define SCALARCONVERTER_HPP
 
 #include <iostream>
-#include <sstream>
 #include <exception>
+#include <sstream>
+#include <limits>
 
-class Converter
+class ScalarConverter
 {
 private:
-    Converter();
-    Converter(const Converter &);
-    Converter &operator=(const Converter &);
-    ~Converter();
+    ScalarConverter();
+    ScalarConverter(const ScalarConverter &);
+    ScalarConverter &operator=(const ScalarConverter &);
+    ~ScalarConverter();
 
 public:
     static void convert(const std::string &);
@@ -24,13 +25,13 @@ public:
     class NonDisplayableException : public std::exception
     {
     public:
-        virtual const char *what() const throw();
+        const char *what() const throw();
     };
 
     class ImpossibleException : public std::exception
     {
     public:
-        virtual const char *what() const throw();
+        const char *what() const throw();
     };
 };
 

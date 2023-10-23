@@ -1,12 +1,12 @@
-NAME		=	Converter
+NAME		=	ScalarConverter
 
 CXX			=	c++ -g2
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
-# CXXFLAGS	+=	-fsanitize=address -g2 -pedantic
+CXXFLAGS	+=	-fsanitize=address -g2 -pedantic
 
 BUILD_DIR	=	bulid
 
-SRC		=	main.cpp Converter.cpp
+SRC		=	main.cpp ScalarConverter.cpp
 OBJ		=	$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	$(NAME)
@@ -26,7 +26,7 @@ clean:
 
 fclean: clean
 	@$(RM) -r $(NAME)
-	@echo "${YELLOW}> Cleaning of the Converter has been done.❌${END}"
+	@echo "${YELLOW}> Cleaning of the ScalarConverter has been done.❌${END}"
 
 re: fclean all
 
