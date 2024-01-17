@@ -12,9 +12,9 @@ private:
     ScalarConverter();
     ScalarConverter(const ScalarConverter &);
     ScalarConverter &operator=(const ScalarConverter &);
-    ~ScalarConverter();
 
 public:
+    ~ScalarConverter();
     static void convert(const std::string &);
 
     static char ToChar(const std::string &);
