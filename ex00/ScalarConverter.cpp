@@ -5,114 +5,93 @@ ScalarConverter::ScalarConverter(const ScalarConverter &) {}
 ScalarConverter &ScalarConverter::operator=(const ScalarConverter &) { return *this; }
 ScalarConverter::~ScalarConverter() {}
 
-char ScalarConverter::ToChar(const std::string &str)
+char ScalarConverter::toChar(const std::string &str)
 {
-    if (str == "-inf" || str == "inf" || str == "+inf" || str == "-nan" || str == "nan" || str == "+nan")
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    if (str.length() != 1 || !isascii(str[0]))
         throw ImpossibleException();
-    if (str.length() != 1)
-    {
-        char *endptr;
-        double d = strtod(str.c_str(), &endptr);
-        if (str.c_str() == endptr)
-            throw ImpossibleException();
-        if (d < std::numeric_limits<char>::min() || std::numeric_limits<char>::max() < d)
-            throw NonDisplayableException();
-        return static_cast<char>(d);
-    }
-    char c = str[0];
-    if (!isprint(static_cast<unsigned char>(c)))
+    // char로의 변환이 표시할 수 없는 문자인 경우 NonDisplayableException 예외를 던진다.
+    int ascii = static_cast<int>(str[0]);
+    if (str.length() == 1 && isprint(ascii) && !isdigit(ascii))
+        return str[0];
+    else if (!isprint(ascii))
         throw NonDisplayableException();
-    return c;
 }
 
-int ScalarConverter::ToInt(const std::string &str)
+int ScalarConverter::toInt(const std::string &str)
 {
-    if (str == "-inf" || str == "inf" || str == "+inf" || str == "-nan" || str == "nan" || str == "+nan")
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    // 예시: 0, -42, 42
+    int num = std::stoi(str);
+    if (!isdigit(str[0]) || num < std::numeric_limits<int>::min() || std::numeric_limits<int>::max() < num)
         throw ImpossibleException();
-    if (str.length() != 1)
-    {
-        char *endptr;
-        double d = strtod(str.c_str(), &endptr);
-        if (str.c_str() == endptr)
-            throw ImpossibleException();
-        if (d < std::numeric_limits<int>::min() || d > std::numeric_limits<int>::max())
-            throw NonDisplayableException();
-        return static_cast<int>(d);
-    }
-    int i = static_cast<int>(str[0]);
-    if (!isprint(static_cast<int>(i)))
-        throw NonDisplayableException();
-    return i;
+    return num;
 }
 
-float ScalarConverter::ToFloat(const std::string &str)
+float ScalarConverter::toFloat(const std::string &str)
 {
-    if (str == "-inf" || str == "inf" || str == "+inf" || str == "-nan" || str == "nan" || str == "+nan")
-        throw NonDisplayableException();
-    if (str == "-inf" || str == "+inf" || str == "nan") //- +
-        std::cout << "float: " << str << "f" << std::endl;
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    // 0.0f, -4.2f, 4.2f
+    // -inff, +inf, nanf
 }
 
-double ScalarConverter::ToDouble(const std::string &str)
+double ScalarConverter::toDouble(const std::string &str)
 {
-    if (str == "-inf" || str == "+inf" || str == "nan")
-        std::cout << "double: " << str << std::endl;
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    // 0.0, -4.2, 4.2
+    // -inf, +inf, nan
 }
 
 void ScalarConverter::convert(const std::string &str)
 {
-    if (str.length() == 1 && !isdigit(str[0]))
-    {
-        std::cout << "char: " << str[0] << std::endl;
-        std::cout << "int: " << static_cast<int>(str[0]) << std::endl;
-        std::cout << "float: " << static_cast<float>(str[0]) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(str[0]) << ".0" << std::endl;
-        return;
-    }
-
-    if (str == "-inf" || str == "+inf" || str == "nan")
-    {
-        std::cout << "char: " << ScalarConverter::ToChar(str) << std::endl;
-        std::cout << "int: " << ScalarConverter::ToInt(str) << std::endl;
-        std::cout << "float: " << str << ".0f" << std::endl;
-        std::cout << "double: " << str << ".0" << std::endl;
-        return;
-    }
-
-    // non displayable characters shouldn’t be used as inputs. and output infor message.
-
     try
     {
-        std::cout << "char: " << ScalarConverter::ToChar(str) << std::endl;
+        std::cout << "char: " << toChar(str) << std::endl;
     }
-    catch (const std::exception &e)
+    catch (const NonDisplayableException &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    catch (const ImpossibleException &e)
     {
         std::cerr << e.what() << '\n';
     }
 
     try
     {
-        std::cout << "int: " << ScalarConverter::ToChar(str) << std::endl;
+        std::cout << "int: " << toInt(str) << std::endl;
     }
-    catch (const std::exception &e)
+    catch (const NonDisplayableException &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    catch (const ImpossibleException &e)
     {
         std::cerr << e.what() << '\n';
     }
 
     try
     {
-        std::cout << "float: " << ScalarConverter::ToChar(str) << std::endl;
+        std::cout << "float: " << toFloat(str) << std::endl;
     }
-    catch (const std::exception &e)
+    catch (const NonDisplayableException &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    catch (const ImpossibleException &e)
     {
         std::cerr << e.what() << '\n';
     }
 
     try
     {
-        std::cout << "double: " << ScalarConverter::ToChar(str) << std::endl;
+        std::cout << "double: " << toDouble(str) << std::endl;
     }
-    catch (const std::exception &e)
+    catch (const NonDisplayableException &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    catch (const ImpossibleException &e)
     {
         std::cerr << e.what() << '\n';
     }

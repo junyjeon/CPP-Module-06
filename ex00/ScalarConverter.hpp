@@ -13,14 +13,13 @@ private:
     ScalarConverter(const ScalarConverter &);
     ScalarConverter &operator=(const ScalarConverter &);
 
+    static char toChar(const std::string &);
+    static int toInt(const std::string &);
+    static float toFloat(const std::string &);
+    static double toDouble(const std::string &);
 public:
     ~ScalarConverter();
     static void convert(const std::string &);
-
-    static char ToChar(const std::string &);
-    static int ToInt(const std::string &);
-    static float ToFloat(const std::string &);
-    static double ToDouble(const std::string &);
 
     class NonDisplayableException : public std::exception
     {

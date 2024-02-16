@@ -2,7 +2,7 @@ NAME		=	ScalarConverter
 
 CXX			=	c++ -g2
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
-CXXFLAGS	+=	-fsanitize=address -g2 -pedantic
+# CXXFLAGS	+=	-fsanitize=address -g2 -pedantic
 
 BUILD_DIR	=	bulid
 
@@ -26,7 +26,7 @@ clean:
 
 fclean: clean
 	@$(RM) -r $(NAME)
-	@echo "${YELLOW}> Cleaning of the ScalarConverter has been done.❌${END}"
+	@echo "${YELLOW}> Cleaning of the ${NAME} has been done.❌${END}"
 
 re: fclean all
 
