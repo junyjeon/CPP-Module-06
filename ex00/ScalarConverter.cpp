@@ -43,6 +43,8 @@ float ScalarConverter::toFloat(const std::string &str)
     std::istringstream iss(str);
     float num;
     iss >> num;
+    if (str == "nanf" || str == "+inff" || str == "-inff")
+        return std::stof(str);
     if (iss.fail() || !iss.eof())
         throw ImpossibleException();
     if (num < -std::numeric_limits<float>::max() || std::numeric_limits<float>::max() < num)
@@ -60,6 +62,8 @@ double ScalarConverter::toDouble(const std::string &str)
     std::istringstream iss(str);
     double num;
     iss >> num;
+    if (str == "nan" || str == "+inf" || str == "-inf")
+        return std::stod(str);
     if (iss.fail() || !iss.eof())
         throw ImpossibleException();
     // std::numeric_limits<T>::min() -> T가 표현할 수 있는 가장 작은 값. 정수 타입의 경우 가장 작은 음수 값.
