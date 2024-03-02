@@ -2,9 +2,10 @@
 #define SCALARCONVERTER_HPP
 
 #include <iostream>
-#include <exception>
-#include <sstream>
-#include <limits>
+#include <exception> // std::exception
+#include <sstream> // std::istringstream
+#include <limits> // std::numeric_limits
+#include <iomanip> // std::setprecision
 
 class ScalarConverter
 {
