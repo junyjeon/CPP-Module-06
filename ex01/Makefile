@@ -2,9 +2,9 @@ NAME		=	Serializer
 
 CXX			=	c++ -g2
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
-# CXXFLAGS	+=	-fsanitize=address -g2 -pedantic
+CXXFLAGS	+=	-fsanitize=address -g2 -pedantic
 
-BUILD_DIR	=	bulid
+BUILD_DIR	=	build
 
 SRC		=	main.cpp Serializer.cpp
 OBJ		=	$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
