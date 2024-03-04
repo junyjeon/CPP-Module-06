@@ -2,19 +2,16 @@
 #define BASE_HPP
 
 #include <iostream>
-#include "A.hpp"
-#include "B.hpp"
-#include "C.hpp"
+#include <ctime>
+#include <cstdlib>
 
-class Base
-{
+class Base {
 public:
     virtual ~Base();
-
-    Base *generate() const;
-    
-    void identify(Base *p);
-    void identify(Base &p);
 };
+
+Base* generate();
+void identify(Base* p);
+void identify(Base& p);
 
 #endif // BASE_HPP
