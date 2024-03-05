@@ -98,8 +98,10 @@ void ScalarConverter::convert(const std::string &originalStr)
     std::string str = originalStr;
 
     if (!str.empty() && str.find("inf") == std::string::npos && str[str.length() - 1] == 'f')
+	{
         str = str.substr(0, str.length() - 1);
-    
+	}
+	
 	try
     {
         char res = toChar(str);
