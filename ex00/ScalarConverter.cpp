@@ -7,13 +7,15 @@ ScalarConverter::~ScalarConverter() {}
 
 char ScalarConverter::toChar(const std::string &str)
 {
-    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
-    long double num = 0;
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException
+    if (str.compare("nan") == 0)
+		throw ImpossibleException();
+	long double num;
     std::istringstream iss(str);
     iss >> num;
     if (iss.fail() || !iss.eof() || num < std::numeric_limits<char>::min() || std::numeric_limits<char>::max() < num)
         throw ImpossibleException();
-    // 표시할 수 없는 문자인 경우 NonDisplayableException 예외를 던진다.
+    // 표시할 수 없는 문자인 경우 NonDisplayableException
     else if (!isprint(static_cast<int>(num)))
         throw NonDisplayableException();
     return static_cast<char>(num);
@@ -21,13 +23,15 @@ char ScalarConverter::toChar(const std::string &str)
 
 int ScalarConverter::toInt(const std::string &str)
 {
-    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException
     // 예시: 0, -42, 42
-    long double num;
+    if (str.compare("nan") == 0)
+		throw ImpossibleException();
+	long double num;
     std::istringstream iss(str); // 표준 입력(std::cin)이나 파일로부터 input을 받는 것처럼 처리. (꼼수 느낌)
     iss >> num; // 문자열 str에서 정수로 데이터를 읽어서 num에 저장
     // iss는 공백, +, -, 도 올바르게 처리한다.
-    // int num = std::stoi(str); // c++11 이후로는 이렇게 사용해도 된다.
+    // int num = std::stoi(str); // c++11
     if (iss.fail() || !iss.eof() || num < std::numeric_limits<int>::min() || std::numeric_limits<int>::max() < num) // iss으로 변환 과정에서 int max, min을 넘어가는 경우에도 fail이 발생. eof는 끝까지 읽었을 때 true
         throw ImpossibleException();
     return static_cast<int>(num);
@@ -35,14 +39,14 @@ int ScalarConverter::toInt(const std::string &str)
 
 float ScalarConverter::toFloat(const std::string &str)
 {
-    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException
     // 0.0f, -4.2f, 4.2f
     // -inff, +inff, nanf
-    if (str == "nan" || str == "nanf") {
+    if (str == "nan") {
         return std::numeric_limits<float>::quiet_NaN();
-    } else if (str == "+inff") {
+    } else if (str == "+inf" || str == "inf" || str == "+inff" || str == "inff") {
         return std::numeric_limits<float>::infinity();
-    } else if (str == "-inff") {
+    } else if (str == "-inf" || str == "-inff") {
         return -std::numeric_limits<float>::infinity();
     }
     // std::numeric_limits<float>::min() -> 1.17549e-38
@@ -59,12 +63,12 @@ float ScalarConverter::toFloat(const std::string &str)
 
 double ScalarConverter::toDouble(const std::string &str)
 {
-    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException 예외를 던진다.
+    // 변환이 말이 안되거나, 오버플로우가 발생하는 경우 ImpossibleException
     // 0.0, -4.2, 4.2
     // -inf, +inf, nan
     if (str == "nan") {
         return std::numeric_limits<double>::quiet_NaN();
-    } else if (str == "+inf") {
+    } else if (str == "+inf" || str == "inf") {
         return std::numeric_limits<double>::infinity();
     } else if (str == "-inf") {
         return -std::numeric_limits<double>::infinity();
@@ -92,9 +96,12 @@ double ScalarConverter::toDouble(const std::string &str)
 void ScalarConverter::convert(const std::string &originalStr)
 {
     std::string str = originalStr;
-    if (!str.empty() && str[str.length() - 1] == 'f')
+
+    if (!str.empty() && str.find("inf") == std::string::npos
+	&& str[str.length() - 1] == 'f')
         str = str.substr(0, str.length() - 1);
-    try
+    
+	try
     {
         char res = toChar(str);
         std::cout << "char: '" << res << "'" << std::endl;
