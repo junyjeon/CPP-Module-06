@@ -1,10 +1,20 @@
-# CPP Module 06
-
 <div align="center">
+  <h1>💻 CPP Module 06</h1>
+  <p>C++ 타입 캐스팅 | 형변환 연산자</p>
+
   <img src="assets/18_cpp_module_06_review.jpg" alt="C++ Type Casting" width="800"/>
   
-  [![42 Score](https://img.shields.io/badge/Score-100%2F100-success?style=for-the-badge&logo=42)](https://github.com/junyjeon/CPP-Module-06)
-  [![C++](https://img.shields.io/badge/C++-98-blue.svg?style=for-the-badge&logo=c%2B%2B)](https://github.com/junyjeon/CPP-Module-06)
+  <div>
+    <img src="https://img.shields.io/badge/Score-100%2F100-success?style=flat-square&logo=42" alt="42 Score"/>
+    <img src="https://img.shields.io/badge/Language-C++98-00599C?style=flat-square&logo=c%2B%2B" alt="Language"/>
+  </div>
+
+  ### 학습 내용
+  - static_cast 변환
+  - dynamic_cast와 RTTI
+  - reinterpret_cast 활용
+  - const_cast의 사용과 주의점
+  - 스칼라 타입 변환과 직렬화
 </div>
 
 ## 🚀 Quick Start
